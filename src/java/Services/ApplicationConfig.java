@@ -3,6 +3,7 @@ package Services;
 import java.util.Set;
 import javax.ws.rs.core.Application;
 
+
 @javax.ws.rs.ApplicationPath("")
 public class ApplicationConfig extends Application {
 
@@ -14,7 +15,6 @@ public class ApplicationConfig extends Application {
     }
 
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(Services.UserService.class);
+        resources.add(Services.UserService.class);   
     }
-    
 }

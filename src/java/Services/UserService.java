@@ -44,24 +44,25 @@ public class UserService {
     }
    
     @GET
-    @Path("{id}/")
+    @Path("{id}")
     @Produces("application/json")
     public String ObterUsuarioPorId(@PathParam("id") int id) {
-        return "CHEGANDO NA ROTA GET OBTER USUÁRIO COM ID " + id + "COM NOME: "  ;
+        return UserController.ObterUsuarioPorId(id);
     } 
     
     @PUT
     @Path("{id}")
     @Consumes("application/json")
-    public String EditarUsuario(@PathParam("id") int id) {
-        return "EDITAR USUÁRIO COM ID " + id;
+    public String EditarUsuario(@PathParam("id") int id, String body) {
+        String retornoController = UserController.EditarUsuarioPorId(id, body);
+        return retornoController;
     }
     
     @DELETE
     @Path("{id}")
     @Consumes("application/json")
     public String DeletarUsuario(@PathParam("id") int id) {
-        return "DELETAR USUÁRIO COM ID " + id;
+        return UserController.DeletarUsuario(id);
     }
 
 }
