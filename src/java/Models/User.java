@@ -6,10 +6,26 @@ public class User {
         this.nome = nome;
         this.idade = idade;
     }
-      
+
+    public User(int id, String nome, int idade) {
+        this.id = id;
+        this.nome = nome;
+        this.idade = idade;
+    }
+    
+        
+    private int id;
     private String nome;
     private int idade;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public String getNome() {
         return nome;
     }

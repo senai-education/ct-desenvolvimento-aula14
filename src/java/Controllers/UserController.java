@@ -1,6 +1,7 @@
 package Controllers;
 
 import DAO.ConexaoBanco;
+import DAO.UserDAO;
 import Models.User;
 import com.google.gson.Gson;
 import java.sql.Connection;
@@ -13,26 +14,27 @@ public  class UserController {
     static public String CriarUsuarioBanco(String body){
         Gson gson = new Gson();
         User user = gson.fromJson(body, User.class);
-        listaUsuario.add(user);
-        Connection con = ConexaoBanco.CriaConexao();
-        return body;
+        boolean resposta = UserDAO.InserirUsuarioBanco(user);
+        if(resposta == true){
+            return body;
+        }else {
+            return "NÃO FOI POSSÍVEL CRIAR O USUÁRIO";    
+        }
     }
     
     static public String ObterTodosUsuarios(){
-       Gson gson = new Gson();
-       String resultado = gson.toJson(listaUsuario);
+       ArrayList<User> listaUsuarioBanco = UserDAO.BuscarTodosUsuario(); 
+       String resultado = new Gson().toJson(listaUsuarioBanco);
        return resultado;
     }
     
     static public String ObterUsuarioPorId(int id) {
-        Gson gson = new Gson();
-        try{
-            User user = listaUsuario.get(id);
-            String resultado = gson.toJson(user);
-            return resultado;
-        }catch(Exception e){
-             return "Usuario não encontrado";
-        }
+       User user = UserDAO.BuscarUsuarioPorId(id);
+       String resultado = new Gson().toJson(user);
+       if(user == null){
+           return "NÃO FOI POSSÍVEL ENCONTRAR O USUÁRIO";
+       }
+       return resultado;
     }
     
     static public String EditarUsuarioPorId(int id, String body){
@@ -44,8 +46,6 @@ public  class UserController {
             
             //PEGA USUARIO QUE VEIO PELO CORPO
             User userBody = gson.fromJson(body, User.class);
-            System.out.println(userBody.getNome());
-            System.out.println(userBody.getIdade());
             
             if(userBody.getNome() != null){
                 user.setNome(userBody.getNome());
@@ -55,7 +55,6 @@ public  class UserController {
                 user.setIdade(userBody.getIdade());
             }
             
-//            listaUsuario.set(id, user);
             String resultado = gson.toJson(user);
             return resultado;
         }catch(Exception e){

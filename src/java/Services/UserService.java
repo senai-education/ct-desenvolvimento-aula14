@@ -19,12 +19,6 @@ import javax.ws.rs.core.MediaType;
 @Path("user")
 public class UserService {
 
-    //GET - http://localhost:8080/user -> ObterTodosUsuarios();
-    //POST - http://localhost:8080/user -> CriarUsuario();
-    //GET - http://localhost:8080/user/123 -> ObterUsuarioPorId();    
-    //PUT - http://localhost:8080/user/123 -> ObterTodosUsuarios();
-    //DELETE - http://localhost:8080/user/123 -> DeletarUsuario();
-    
     @Context
     private UriInfo context;
 
@@ -33,7 +27,7 @@ public class UserService {
     
     @POST
     @Consumes("application/json")
-    public String CriarUsuario(String content) {        
+    public String CriarUsuario(String content) {
        return UserController.CriarUsuarioBanco(content);
     }
 
