@@ -1,4 +1,4 @@
-package DAO;
+package Utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,10 +7,9 @@ public class ConexaoBanco {
     
     private static final String DRIVER = "org.postgresql.Driver";    
     private static final String USUARIO = "postgres"; 
-    private static final String SENHA = "senai";  
+    private static final String SENHA = "postgresql";  
     private static final String URL = "jdbc:postgresql://localhost:5432/webapi";  
     private static Connection conexao = null;
-    
     
     public static Connection CriaConexao() {
         if(conexao == null){

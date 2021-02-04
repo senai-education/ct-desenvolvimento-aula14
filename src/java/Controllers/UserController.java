@@ -1,16 +1,15 @@
 package Controllers;
 
-import DAO.ConexaoBanco;
+import Utils.ConexaoBanco;
 import DAO.UserDAO;
 import Models.User;
 import com.google.gson.Gson;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public  class UserController {
 
-    static ArrayList<User> listaUsuario = new ArrayList();
-    
     static public String CriarUsuarioBanco(String body){
         Gson gson = new Gson();
         User user = gson.fromJson(body, User.class);
@@ -23,7 +22,7 @@ public  class UserController {
     }
     
     static public String ObterTodosUsuarios(){
-       ArrayList<User> listaUsuarioBanco = UserDAO.BuscarTodosUsuario(); 
+       ArrayList<User> listaUsuarioBanco = UserDAO.BuscarTodosUsuario(); ;;
        String resultado = new Gson().toJson(listaUsuarioBanco);
        return resultado;
     }
@@ -39,35 +38,24 @@ public  class UserController {
     
     static public String EditarUsuarioPorId(int id, String body){
         Gson gson = new Gson();
+        User userVeioCorpo = gson.fromJson(body, User.class);        
+        User userBanco = UserDAO.BuscarUsuarioPorId(id);
         
-        try{
-            // BUSCO USUÁRIO POR ID
-            User user = listaUsuario.get(id);
-            
-            //PEGA USUARIO QUE VEIO PELO CORPO
-            User userBody = gson.fromJson(body, User.class);
-            
-            if(userBody.getNome() != null){
-                user.setNome(userBody.getNome());
-            }
-            
-            if(userBody.getIdade() != 0){
-                user.setIdade(userBody.getIdade());
-            }
-            
-            String resultado = gson.toJson(user);
-            return resultado;
-        }catch(Exception e){
-             return "Usuario não encontrado";
+        if(userVeioCorpo.getNome() != null){
+            userBanco.setNome(userVeioCorpo.getNome());
         }
+        
+        if(userVeioCorpo.getIdade() != 0){
+            userBanco.setIdade(userVeioCorpo.getIdade());
+        }
+        
+        String response = UserDAO.AtualizarUsuarioPorId(id, userBanco);
+        return response;        
     }
     
     static public String DeletarUsuario(int id){
-        try{
-            listaUsuario.remove(id);
-        }catch(Exception e){
-            return "USUARIO NÃO ENCONTRADO";
-        }
-        return "USUARIO DELETADO COM SUCESSO";
+        String response = UserDAO.DeletarUsuarioPorId(id);
+        double testes2 = new Gson().fromJson("testse", Double.class);
+        return response;
     }
 }

@@ -58,5 +58,4 @@ public class UserService {
     public String DeletarUsuario(@PathParam("id") int id) {
         return UserController.DeletarUsuario(id);
     }
-
 }
